@@ -1,0 +1,23 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitrch/Js.git"
+  },
+  "author": "Vladyslav Palii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hitrch/Js/issues"
+  },
+  "homepage": "https://github.com/hitrch/Js#readme",
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-plugin-react": "^7.12.4"
+  }
+}
