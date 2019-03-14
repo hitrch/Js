@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint",
-    "deploy": "now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh",
     "build": "echo builded",
+    "deploy": "now.json",
     "test": "echo \"Error: no test specified\""
   },
   "repository": {
