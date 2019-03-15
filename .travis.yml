@@ -7,4 +7,4 @@ script:
   - npm run lint
   - npm run test
   - npm run build  
-  - now alias --token=$ZEIT_KEY -V 2 JS-$TRAVIS_BRANCH.now.sh
+  - now alias --token=$ZEIT_KEY -V 2 Js-$TRAVIS_BRANCH.now.sh
