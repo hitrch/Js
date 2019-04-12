@@ -1,2 +1,0 @@
-# Js
-JS labs
