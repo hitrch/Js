@@ -1,9 +1,9 @@
-const   //http = require('http'),
-    request = require('request'),
+const   request = require('request'),
     cheerio = require('cheerio'),
     TelegramBot = require('node-telegram-bot-api');
+const {SECRET_BOT_KEY} = require('./secret');
 
-const token = '662101909:AAEEPKpvBZ8e648LQ7fQ40Udi9TqGIcTo58';
+const token = SECRET_BOT_KEY;
 const bot = new TelegramBot(token, {polling: true});
 
 bot.on('message', (message)=>{
