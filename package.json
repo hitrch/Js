@@ -1,0 +1,40 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint",
+    "build": "echo builded",
+    "deploy": "now alias --token=$ZEIT_KEY -V 2 Js-$TRAVIS_BRANCH.now.sh",
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitrch/Js.git"
+  },
+  "author": "Vladyslav Palii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hitrch/Js/issues"
+  },
+  "homepage": "https://github.com/hitrch/Js#readme",
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-plugin-react": "^7.12.4"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "http": "0.0.0",
+    "http-server": "^0.11.1",
+    "jsdom": "^15.0.0",
+    "node-html-parser": "^1.1.13",
+    "node-telegram-bot-api": "^0.30.0",
+    "now": "^14.1.0",
+    "querystring": "^0.2.0",
+    "request": "^2.88.0",
+    "ws": "^6.2.0"
+  }
+}
