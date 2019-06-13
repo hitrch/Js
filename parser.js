@@ -1,34 +1,9 @@
-const   request = require('request'),
-    TelegramBot = require('node-telegram-bot-api'),
+const TelegramBot = require('node-telegram-bot-api'),
     { JSDOM } = require('jsdom');
 const {SECRET_BOT_KEY} = require('./secret');
 
 const token = SECRET_BOT_KEY;
 const bot = new TelegramBot(token, {polling: true});
-
-/*request({
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    uri: "http://rozklad.kpi.ua/Schedules/ScheduleGroupSelection.aspx",
-    body: JSON.stringify({
-        ctl00_ToolkitScriptManager_HiddenField: ';;AjaxControlToolkit, Version=3.5.60623.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e::834c499a-b613-438c-a778-d32ab4976134:22eca927:ce87be9:2d27a0fe:23389d96:77aedcab:1bd6c8d4:7b704157',
-        __VIEWSTATE: '/wEMDAwQAgAADgEMBQAMEAIAAA4BDAUDDBACAAAOAgwFBwwQAgwPAgEIQ3NzQ2xhc3MBD2J0biBidG4tcHJpbWFyeQEEXyFTQgUCAAAADAUNDBACAAAOAQwFAQwQAgAADgEMBQ0MEAIMDwEBBFRleHQBG9Cg0L7Qt9C60LvQsNC0INC30LDQvdGP0YLRjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF2sFgY4y5OMotjUisdjX6wYSpvo',
-        __EVENTTARGET: '',
-        __EVENTARGUMENT: '',
-        ctl00$MainContent$ctl00$txtboxGroup: 'ІС-72',
-        ctl00$MainContent$ctl00$btnShowSchedule: 'Розклад занять',
-        __EVENTVALIDATION: '/wEdAAEAAAD/////AQAAAAAAAAAPAQAAAAUAAAAIsA3rWl3AM+6E94I5Tu9cRJoVjv0LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANf3SW/O93GGq9Au1Jvd6rjtsQXg',
-        hiddenInputToUpdateATBuffer_CommonToolkitScripts: '1',
-    }),
-    method: 'POST'
-}, function (err, res) {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    url = 'http://' + this.uri.host + res.headers.location;
-});*/
 
 let url = 'http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g=894be0b0-9c4b-492e-a3d0-a6950cb1a3e1';
 
