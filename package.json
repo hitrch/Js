@@ -26,15 +26,19 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bufferutil": "^4.0.1",
+    "canvas": "^2.5.0",
     "cheerio": "^1.0.0-rc.2",
     "http": "0.0.0",
     "http-server": "^0.11.1",
-    "jsdom": "^15.0.0",
+    "jsdom": "^15.1.1",
     "node-html-parser": "^1.1.13",
     "node-telegram-bot-api": "^0.30.0",
     "now": "^14.1.0",
     "querystring": "^0.2.0",
     "request": "^2.88.0",
+    "telegrambot": "^0.1.0",
+    "utf-8-validate": "^5.0.2",
     "ws": "^6.2.0"
   }
 }
