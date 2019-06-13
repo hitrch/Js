@@ -1,5 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api'),
-    { JSDOM } = require('jsdom');
+      {JSDOM} = require('jsdom');
 const {SECRET_BOT_KEY} = require('./secret');
 
 const token = SECRET_BOT_KEY;
