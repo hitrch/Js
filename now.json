@@ -1,5 +1,7 @@
 {
 	"name":"Js",
-	"version":2
-
+	"version":2,
+	"env": {
+ 	"SECRET_BOT_KEY": "@SECRET_BOT_KEY"
+	}
 }

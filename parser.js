@@ -1,9 +1,9 @@
 const TelegramBot = require('node-telegram-bot-api'),
       {JSDOM} = require('jsdom');
-const {SECRET_BOT_KEY} = require('./secret');
+//const {SECRET_BOT_KEY} = require('./secret');
 
-const token = SECRET_BOT_KEY;
-const bot = new TelegramBot(token, {polling: true});
+//const token = SECRET_BOT_KEY;
+const bot = new TelegramBot(process.env.SECRET_BOT_KEY, {polling: true});
 
 let url = 'http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g=894be0b0-9c4b-492e-a3d0-a6950cb1a3e1';
 
