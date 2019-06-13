@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint",
-    "build": "echo builded",
+    "build": "node parser.js",
     "deploy": "now alias --token=$ZEIT_KEY -V 2 Js-$TRAVIS_BRANCH.now.sh",
     "test": "echo \"Error: no test specified\""
   },
