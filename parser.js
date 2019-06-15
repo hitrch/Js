@@ -99,6 +99,6 @@ function formatData(data) {
     return result;
 }
 
-bot.telegram.setWebhook('https://js-git-scrapper.hitrch.now.sh');
+bot.telegram.setWebhook('https://js.hitrch.now.sh');
 
 module.exports = bot.webhookCallback('/');
