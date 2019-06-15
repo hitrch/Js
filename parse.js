@@ -21,6 +21,7 @@ function schedule(url){
 
         let firstWeek = {};
         let secondWeek = {};
+
         Object.keys(first).forEach(row=>{
             if(row>0) {
                 const firstRow = getRowData(first[row]);
@@ -34,18 +35,41 @@ function schedule(url){
                     try {
                         let temp = {};
                         const firstLength = firstRow[day].getElementsByTagName('a').length;
+
+                        if(firstLength !== 1)
+                        {
+                            temp.number = row;
+                            temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
+                            temp.teacher = firstRow[day].getElementsByTagName('a')[1].innerHTML;
+                            temp.classroom = firstRow[day].getElementsByTagName('a')[firstLength-1].innerHTML;
+                            firstWeek[week[day]].push(temp);
+                        } else{
+                            temp.number = row;
+                            temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
+                            firstWeek[week[day]].push(temp);
+                        }
+
+                    }
+                    catch(err){
+                        //
+                    }
+
+                    try {
+                        let temp = {};
                         const secondLength = secondRow[day].getElementsByTagName('a').length;
 
-                        temp.number = row;
-                        temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
-                        temp.teacher = firstRow[day].getElementsByTagName('a')[1].innerHTML;
-                        temp.classroom = firstRow[day].getElementsByTagName('a')[firstLength-1].innerHTML;
-                        firstWeek[week[day]].push(temp);
-
-                        temp.name = secondRow[day].getElementsByTagName('a')[0].innerHTML;
-                        temp.teacher = secondRow[day].getElementsByTagName('a')[1].innerHTML;
-                        temp.classroom = secondRow[day].getElementsByTagName('a')[secondLength-1].innerHTML;
-                        secondWeek[week[day]].push(temp);
+                        if(secondLength !== 1)
+                        {
+                            temp.number = row;
+                            temp.name = secondRow[day].getElementsByTagName('a')[0].innerHTML;
+                            temp.teacher = secondRow[day].getElementsByTagName('a')[1].innerHTML;
+                            temp.classroom = secondRow[day].getElementsByTagName('a')[secondLength-1].innerHTML;
+                            secondWeek[week[day]].push(temp);
+                        } else {
+                            temp.number = row;
+                            temp.name = secondRow[day].getElementsByTagName('a')[0].innerHTML;
+                            secondWeek[week[day]].push(temp);
+                        }
                     }
                     catch(err){
                         //
@@ -81,8 +105,14 @@ function formatData(data) {
         result += '--------------------\n' + day +'\n--------------------\n\n';
         Object.keys(data[day]).forEach(lesson=>{
             result += data[day][lesson].number + '.' + data[day][lesson].name + '\n';
-            result += 'Teacher: ' + data[day][lesson].teacher + '\n';
-            result += 'Classroom: ' + data[day][lesson].classroom + '\n\n' ;
+            if(data[day][lesson].teacher !== undefined)
+            {
+                result += 'Teacher: ' + data[day][lesson].teacher + '\n';
+                if(data[day][lesson].classroom !== undefined)
+                {
+                    result += 'Classroom: ' + data[day][lesson].classroom + '\n\n' ;
+                }
+            }
         });
     });
     return result;
@@ -107,7 +137,7 @@ const getGroupUrl = function getGroupUrl(url, group) {
                 url: url,
                 form: form
             }, (err, res)=>{
-                resolve(`http://rozklad.kpi.ua${res.headers.location}`)
+                resolve(`http://rozklad.kpi.ua${res.headers.location}`);
             });
         });
     });
@@ -115,7 +145,7 @@ const getGroupUrl = function getGroupUrl(url, group) {
 
 const rozclad = function rozclad(group){
     return getGroupUrl(url, group).then(groupUrl=>{
-            return schedule(groupUrl)
+            return schedule(groupUrl);
         },
         error=>{
             throw (error)
