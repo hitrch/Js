@@ -1,8 +1,11 @@
 'use strict';
 
-const {JSDOM} = require('jsdom');
+const request = require('request'),
+    {JSDOM} = require('jsdom');
 
-function rozclad(url){
+let url = 'http://rozklad.kpi.ua/Schedules/ScheduleGroupSelection.aspx';
+
+function schedule(url){
     return JSDOM.fromURL(url).then(dom => {
         const document = dom.window.document;
         const first = getWeekData('ctl00_MainContent_FirstScheduleTable', document);
@@ -84,5 +87,39 @@ function formatData(data) {
     });
     return result;
 }
+
+
+const getGroupUrl = function getGroupUrl(url, group) {
+    return JSDOM.fromURL(url).then(dom => {
+        const document = dom.window.document;
+        const formElement = document.getElementById('aspnetForm');
+        const hiddenInputs = formElement.querySelectorAll('input[type="hidden"]');
+
+        const form = {
+            ctl00$MainContent$ctl00$txtboxGroup: group,
+            ctl00$MainContent$ctl00$btnShowSchedule: "Розклад занять"
+        };
+
+        [...hiddenInputs].forEach(elem =>{ elem.value ? form[elem.name] = elem.value : console.log("Error")});
+
+        return new Promise(resolve=>{
+            request.post({
+                url: url,
+                form: form
+            }, (err, res)=>{
+                resolve(`http://rozklad.kpi.ua${res.headers.location}`)
+            });
+        });
+    });
+};
+
+const rozclad = function rozclad(group){
+    return getGroupUrl(url, group).then(groupUrl=>{
+            return schedule(groupUrl)
+        },
+        error=>{
+            throw (error)
+        })
+};
 
 module.exports = {rozclad};
