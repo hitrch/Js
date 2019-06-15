@@ -37,6 +37,7 @@
     "now": "^14.1.0",
     "querystring": "^0.2.0",
     "request": "^2.88.0",
+    "telegraf": "^3.30.1",
     "telegrambot": "^0.1.0",
     "utf-8-validate": "^5.0.2",
     "ws": "^6.2.0"

@@ -1,18 +1,20 @@
-const TelegramBot = require('node-telegram-bot-api'),
-      {JSDOM} = require('jsdom');
-//const {SECRET_BOT_KEY} = require('./secret');
+const Telegraf  = require('telegraf'),
+    {JSDOM} = require('jsdom');
 
-//const token = SECRET_BOT_KEY;
-const bot = new TelegramBot(process.env.SECRET_BOT_KEY, {polling: true});
+const options = {
+    webHook: {
+        port: process.env.PORT
+    }
+};
 
+const bot = new Telegraf(process.env.SECRET_BOT_KEY, options);
 let url = 'http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g=894be0b0-9c4b-492e-a3d0-a6950cb1a3e1';
 
 
-bot.on('message', (message)=>{
-    rozclad(url).then(roz =>{
-        bot.sendMessage(message.from.id, roz);
-    });
-});
+bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => rozclad(url)
+    .then(result=>{ctx.reply(result)})
+    .catch(()=>ctx.reply('Something went wrong')));
+
 
 function rozclad(url){
     return JSDOM.fromURL(url).then(dom => {
@@ -96,3 +98,7 @@ function formatData(data) {
     });
     return result;
 }
+
+bot.telegram.setWebhook('https://js-git-scrapper.hitrch.now.sh');
+
+module.exports = bot.webhookCallback('/');
