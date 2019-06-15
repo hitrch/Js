@@ -16,6 +16,6 @@ bot.hears( '',(ctx) => rozclad(url)
     .then(result=>{ctx.reply(result)})
     .catch(()=>ctx.reply('Something went wrong')));
 
-bot.telegram.setWebhook('https://js.hitrch.now.sh');
+//bot.telegram.setWebhook('https://js.hitrch.now.sh');
 
 module.exports = bot.webhookCallback('/');
