@@ -5,7 +5,7 @@ const bot = new Telegraf(process.env.SECRET_BOT_KEY);
 let url = 'http://rozklad.kpi.ua/Schedules/ScheduleGroupSelection.aspx';
 
 bot.start((ctx) => ctx.reply('Welcome'));
-bot.hears( /.$/,(ctx) => rozclad(url)
+bot.hears( /.$/,(ctx) => rozclad(ctx.message.text)
     .then(result=>{ctx.reply(result)})
     .catch(()=>ctx.reply('Something went wrong')));
 
