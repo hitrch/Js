@@ -8,81 +8,77 @@ let url = 'http://rozklad.kpi.ua/Schedules/ScheduleGroupSelection.aspx';
 function schedule(url){
     return JSDOM.fromURL(url).then(dom => {
         const document = dom.window.document;
-        const first = getWeekData('ctl00_MainContent_FirstScheduleTable', document);
-        const second = getWeekData('ctl00_MainContent_SecondScheduleTable', document);
+        let first = getWeekData('ctl00_MainContent_FirstScheduleTable', document);
+        let second = getWeekData('ctl00_MainContent_SecondScheduleTable', document);
         const week = {
-            1: 'monday',
-            2: 'tuesday',
-            3: 'wednesday',
-            4: 'thursday',
-            5: 'friday',
-            6: 'saturday'
+            1: 'Понеділок',
+            2: 'Вівторок',
+            3: 'Середа',
+            4: 'Четвер',
+            5: 'П\'ятниця',
+            6: 'Суббота'
         };
 
-        let firstWeek = {};
+        let firstWeek = [];
         let secondWeek = {};
+        first = Array.from(first);
+        second = Array.from(second);
+        firstWeek = getReduce(first);
+        secondWeek = getReduce(second);
 
-        Object.keys(first).forEach(row=>{
-            if(row>0) {
-                const firstRow = getRowData(first[row]);
-                const secondRow = getRowData(second[row]);
-
-                Object.keys(week).forEach(day=>{
-                    if (firstWeek[week[day]] === undefined) {
-                        firstWeek[week[day]] = [];
-                        secondWeek[week[day]] = [];
-                    }
-                    try {
-                        let temp = {};
-                        const firstLength = firstRow[day].getElementsByTagName('a').length;
-
-                        if(firstLength !== 1)
-                        {
-                            temp.number = row;
-                            temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
-                            temp.teacher = firstRow[day].getElementsByTagName('a')[1].innerHTML;
-                            temp.classroom = firstRow[day].getElementsByTagName('a')[firstLength-1].innerHTML;
-                            firstWeek[week[day]].push(temp);
-                        } else{
-                            temp.number = row;
-                            temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
-                            firstWeek[week[day]].push(temp);
-                        }
-
-                    }
-                    catch(err){
-                        //
-                    }
-
-                    try {
-                        let temp = {};
-                        const secondLength = secondRow[day].getElementsByTagName('a').length;
-
-                        if(secondLength !== 1)
-                        {
-                            temp.number = row;
-                            temp.name = secondRow[day].getElementsByTagName('a')[0].innerHTML;
-                            temp.teacher = secondRow[day].getElementsByTagName('a')[1].innerHTML;
-                            temp.classroom = secondRow[day].getElementsByTagName('a')[secondLength-1].innerHTML;
-                            secondWeek[week[day]].push(temp);
-                        } else {
-                            temp.number = row;
-                            temp.name = secondRow[day].getElementsByTagName('a')[0].innerHTML;
-                            secondWeek[week[day]].push(temp);
-                        }
-                    }
-                    catch(err){
-                        //
-                    }
-                });
-            }
-        });
-        const result = '=================\nFIRST WEEK\n=================\n\n' +formatData(firstWeek)+
-            '\n=================\nSECOND WEEK\n=================\n\n' + formatData(secondWeek);
+        firstWeek = '=================\nПерший тиждень\n=================\n\n' +formatData(firstWeek, week);
+        secondWeek = '=================\nДругий тиждень\n=================\n\n' + formatData(secondWeek, week);
         return new Promise(resolve => {
-            resolve(result);
+            resolve([firstWeek, secondWeek]);
         })
     })
+}
+
+function getReduce(table){
+    return table.reduce(function (all, col, i) {
+        if(i > 0)
+        {
+            let Row = Array.from(getRowData(col));
+            let column = Row.reduce(function (tuple, day, j) {
+                if(j > 0)
+                {
+                    let temp = {};
+                    temp.number = i;
+                    if(day.innerHTML !== '')
+                    {
+                        try{
+                            if(day.getElementsByTagName('a')[1].innerHTML !== undefined)
+                            {
+                                temp.subject = day.getElementsByTagName('a')[0].innerHTML;
+                                temp.teacher = day.getElementsByTagName('a')[1].innerHTML;
+                                temp.classroom = day.getElementsByTagName('a')[2].innerHTML;
+
+                                tuple.push(temp);
+                            }else{
+                                if(day.getElementsByTagName('a')[0].innerHTML !== undefined)
+                                {
+                                    temp.subject = day.getElementsByTagName('a')[0].innerHTML;
+                                    tuple.push(temp);
+                                }
+                                else{
+                                    temp.subject = day.innerHTML;
+                                    tuple.push(temp);
+                                }
+                            }
+                        }catch (e) {
+                            tuple.push(temp);
+                        }
+                    }else{
+                        tuple.push(temp);
+                    }
+                }
+                return tuple;
+            }, []);
+            all.push(column);
+        }
+
+        return all;
+    }, []);
 }
 
 function getRowData (document) {
@@ -99,22 +95,36 @@ function getWeekData (id, document) {
     return document.getElementById(id).getElementsByTagName('tr');
 }
 
-function formatData(data) {
+function formatData(data, week) {
+    //data[0].length = 6
+    //data.length = 5
     let result = '';
-    Object.keys(data).forEach(day=>{
-        result += '--------------------\n' + day +'\n--------------------\n\n';
-        Object.keys(data[day]).forEach(lesson=>{
-            result += data[day][lesson].number + '.' + data[day][lesson].name + '\n';
-            if(data[day][lesson].teacher !== undefined)
+    try{
+        for(let day = 0;day < data[0].length; day++){
+            result += '--------------------\n' + week[+day + +1] +'\n--------------------\n\n';
+
+            for(let lesson=0; lesson < data.length;lesson++)
             {
-                result += 'Teacher: ' + data[day][lesson].teacher + '\n';
-                if(data[day][lesson].classroom !== undefined)
+                if(data[lesson][day].subject !== undefined)
                 {
-                    result += 'Classroom: ' + data[day][lesson].classroom + '\n\n' ;
+                    result += data[lesson][day].number + '.' + data[lesson][day].subject + '\n';
+                }else{
+                    result += data[lesson][day].number + '.\n';
+                }
+
+                if(data[lesson][day].teacher !== undefined)
+                {
+                    result += 'Викладач: ' + data[lesson][day].teacher + '\n';
+                    if(data[lesson][day].classroom !== undefined)
+                    {
+                        result += 'Аудиторія: ' + data[lesson][day].classroom + '\n\n' ;
+                    }
                 }
             }
-        });
-    });
+        }
+    }catch (e) {
+        console.log(e);
+    }
     return result;
 }
 
