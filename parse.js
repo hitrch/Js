@@ -66,6 +66,7 @@ function getReduce(table){
                                 }
                             }
                         }catch (e) {
+                            temp.subject = day.getElementsByTagName('a')[0].innerHTML;
                             tuple.push(temp);
                         }
                     }else{
@@ -96,8 +97,6 @@ function getWeekData (id, document) {
 }
 
 function formatData(data, week) {
-    //data[0].length = 6
-    //data.length = 5
     let result = '';
     try{
         for(let day = 0;day < data[0].length; day++){
