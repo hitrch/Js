@@ -58,6 +58,7 @@ function saveGroup(group, res1, res2){
 }
 
 
+
 //bot.telegram.setWebhook('https://js.hitrch.now.sh');
 
 module.exports = bot.webhookCallback('/');
