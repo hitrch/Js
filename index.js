@@ -3,7 +3,7 @@ const Telegraf  = require('telegraf'),
 
 
 const admin = require("firebase-admin");
-const serviceAccountKey = require('./serviceAccountKey.json')
+const serviceAccountKey = require('./serviceAccountKey.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccountKey),
