@@ -1,5 +1,5 @@
 {
 	"name":"Js",
 	"version": 2,
-	"builds": [{ "src": "index.js", "use": "@now/node"}]
+	"builds": [{ "src": "index.js", "use": "@now/node", "config": { "maxLambdaSize": "45mb" }}]
 }
