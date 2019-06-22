@@ -156,7 +156,7 @@ const rozclad = function rozclad(group){
     return getGroupUrl(url, group).then(groupUrl=>{
             return schedule(groupUrl);
         },
-        error=>{
+        error => {
             throw (error)
         })
 };
