@@ -44,9 +44,6 @@ bot.hears( /.$/,(ctx) => {
 
 function checkGroup(group){
     return db.collection('groups').doc(group).get()
-        .then((doc) => {
-            return doc.data();
-        })
         .catch((err) => {
             console.log('Error getting documents', err);
         });
