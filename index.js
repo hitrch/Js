@@ -18,6 +18,7 @@ const bot = new Telegraf(process.env.SECRET_BOT_KEY);
 bot.start((ctx) => ctx.reply('Welcome. Enter your group(XX-XX)'));
 bot.hears( /.$/,(ctx) => {
     let group = ctx.message.text.toLowerCase();
+    console.log(group);
     let isGroup = checkGroup(group);
     isGroup.then(data => {
         if(data !== undefined)
@@ -47,7 +48,6 @@ function checkGroup(group){
         .catch((err) => {
             console.log('Error getting documents', err);
         });
-
 }
 
 function saveGroup(group, res1, res2){
