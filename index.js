@@ -18,29 +18,18 @@ const bot = new Telegraf(process.env.SECRET_BOT_KEY);
 bot.start((ctx) => ctx.reply('Welcome. Enter your group(XX-XX)'));
 bot.hears( /.$/,(ctx) => {
     let group = ctx.message.text.toLowerCase();
-    //let isGroup = checkGroup(group);
+    let isGroup = checkGroup(group);
     db.collection('groups').doc(group).get()
         .then((doc) => {
-            if(doc !== undefined)
+            if(doc.data(!== undefined))
             {
-                ctx.reply(doc._fieldsProto.week1.stringValue).then(() => {
-                    ctx.reply(doc._fieldsProto.week2.stringValue);
-                });
-            }else{
-                rozclad(group)
-                    .then(([res1, res2]) => {
-                        ctx.reply(res1).then(() => {
-                            ctx.reply(res2);
-                        });
-                        saveGroup(group, res1, res2);
-                    })
-                    .catch(() => ctx.reply('Something went wrong. Check if group exists(XX-XX)'));
+
             }
         })
         .catch((err) => {
             console.log('Error getting documents', err);
         });
-    /*isGroup.then(data => {
+    isGroup.then(data => {
         if(data !== undefined)
         {
             ctx.reply(data.week1).then(() => {
@@ -56,7 +45,7 @@ bot.hears( /.$/,(ctx) => {
                 })
                 .catch(() => ctx.reply('Something went wrong. Check if group exists(XX-XX)'));
         }
-    });*/
+    });
 
 });
 
@@ -77,6 +66,7 @@ function saveGroup(group, res1, res2){
         'week2' : res2
     });
 }
+
 
 //bot.telegram.setWebhook('https://js.hitrch.now.sh');
 
