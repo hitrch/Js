@@ -19,16 +19,6 @@ bot.start((ctx) => ctx.reply('Welcome. Enter your group(XX-XX)'));
 bot.hears( /.$/,(ctx) => {
     let group = ctx.message.text.toLowerCase();
     let isGroup = checkGroup(group);
-    db.collection('groups').doc(group).get()
-        .then((doc) => {
-            if(doc.data(!== undefined))
-            {
-
-            }
-        })
-        .catch((err) => {
-            console.log('Error getting documents', err);
-        });
     isGroup.then(data => {
         if(data !== undefined)
         {
